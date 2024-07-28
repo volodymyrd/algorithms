@@ -54,7 +54,7 @@ mod tests {
     #[test]
     fn reversed_sorted() {
         let mut a = (0..50).rev().collect::<Vec<_>>();
-        println!("{:?}", a);
+        insertion_sort(&mut a);
         assert_eq!(a, (0..50).collect::<Vec<_>>());
     }
 
