@@ -47,10 +47,21 @@ public final class Graph {
     }
 
     private final Map<Character, Vertex> vertices = new HashMap<>();
-    private final List<char[]> edges;
+    private final Map<Character, List<Vertex>> adj = new HashMap<>();
 
     public Graph(List<char[]> edges) {
-        this.edges = edges;
+        for (var edge : edges) {
+            var src = vertices.getOrDefault(edge[0], new Vertex(edge[0]));
+            vertices.putIfAbsent(edge[0], src);
+            var dest = vertices.getOrDefault(edge[1], new Vertex(edge[1]));
+            vertices.putIfAbsent(edge[1], dest);
+            List<Vertex> l1 = adj.getOrDefault(edge[0], new ArrayList<>());
+            l1.add(dest);
+            adj.put(edge[0], l1);
+            List<Vertex> l2 = adj.getOrDefault(edge[1], new ArrayList<>());
+            l2.add(src);
+            adj.put(edge[1], l2);
+        }
     }
 
     public List<Vertex> shortestPath(char source, char target) {
@@ -80,19 +91,6 @@ public final class Graph {
     }
 
     private List<Vertex> bfs(char source, Character target) {
-        Map<Character, List<Vertex>> adj = new HashMap<>();
-        for (var edge : edges) {
-            var src = vertices.getOrDefault(edge[0], new Vertex(edge[0]));
-            vertices.putIfAbsent(edge[0], src);
-            var dest = vertices.getOrDefault(edge[1], new Vertex(edge[1]));
-            vertices.putIfAbsent(edge[1], dest);
-            List<Vertex> l1 = adj.getOrDefault(edge[0], new ArrayList<>());
-            l1.add(dest);
-            adj.put(edge[0], l1);
-            List<Vertex> l2 = adj.getOrDefault(edge[1], new ArrayList<>());
-            l2.add(src);
-            adj.put(edge[1], l2);
-        }
         Vertex src = vertices.get(source);
         src.visited = true;
         src.dist = 0;
