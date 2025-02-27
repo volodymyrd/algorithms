@@ -1,0 +1,9 @@
+[package]
+name = "merkle_tree"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+borsh = { version = "1.0.0", features = ["derive", "rc"] }
+rand = "0.8.5"
+sha2 = "0.10"
